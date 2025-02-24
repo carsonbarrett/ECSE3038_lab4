@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import motor.motor_asyncio 
-from pydantic import BaseModel, Field
-from typing import Optional
+from pydantic import BaseModel, Field, BeforeValidator
+from typing import Optional, Annotated
 from datetime import datetime
 from bson import ObjectId
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,6 +14,8 @@ connection = motor.motor_asyncio.AsyncIOMotorClient("mongodb+srv://Lab5:Lab5@clu
 
 profiles_db = connection.get_database("profiles")
 tanks_db = connection.get_database("tanks")
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class Profile(BaseModel):
     username: str
